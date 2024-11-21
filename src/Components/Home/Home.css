@@ -1,0 +1,85 @@
+/* Estilos da Home */
+.home-container {
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.foto-boas-vindas {
+  margin-bottom: 20px;
+}
+
+.foto-container {
+  position: relative;
+  display: inline-block;
+}
+
+.foto-professor {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.input-foto {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.botoes-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05); 
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%; 
+  }
+}
