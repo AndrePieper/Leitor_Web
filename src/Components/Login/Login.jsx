@@ -11,16 +11,15 @@ const Login = () => {
   const [mensagemErro, setMensagemErro] = useState("");
   const navegar = useNavigate();
 
-  const Submeter_Login = async (evento) => {
+  const Logar = async (evento) => {
     evento.preventDefault();
     setCarregando(true);
     setMensagemErro("");
 
-    const apiUrl = "https://projeto-iii-4.vercel.app/usuarios/loginWeb";
-    const credenciais = { email: usuario, senha: senha };
+    const credenciais = { email: usuario, senha };
 
     try {
-      const resposta = await fetch(apiUrl, {
+      const resposta = await fetch("https://projeto-iii-4.vercel.app/usuarios/loginWeb", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,8 +30,8 @@ const Login = () => {
       setCarregando(false);
 
       if (!resposta.ok) {
-        const dadosErro = await resposta.json();
-        throw new Error(dadosErro.message || "Erro desconhecido. Contate o suporte.");
+        const erro = await resposta.json();
+        throw new Error(erro.message || "Erro desconhecido. Contate o suporte.");
       }
 
       const dados = await resposta.json();
@@ -45,9 +44,9 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="xs" className="login-container">
-      <img src={logo} alt="Logo" className="login-logo" />
-      <Box component="form" onSubmit={Submeter_Login} className="login-form">
+    <Container maxWidth="xs" className="conteiner">
+      <img src={logo} alt="Logo do Grupo Fasipe" className="logo" />
+      <Box component="form" onSubmit={Logar} className="formulario">
         <TextField
           label="Usuário"
           variant="outlined"
@@ -73,12 +72,12 @@ const Login = () => {
           variant="contained"
           color="success"
           disabled={carregando}
-          className="login-button"
+          className="botao"
         >
           {carregando ? <CircularProgress size={24} color="inherit" /> : "Entrar"}
         </Button>
         {mensagemErro && (
-          <Typography color="error" className="login-error">
+          <Typography className="erro">
             {mensagemErro}
           </Typography>
         )}

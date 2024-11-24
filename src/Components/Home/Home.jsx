@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { decodeJwt } from "jose";
 import { useNavigate } from 'react-router-dom';
-import { Button, Select, MenuItem, InputLabel, FormControl, CircularProgress } from '@mui/material';
+import { Button, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import './Home.css';
 
 const Home = () => {
   const [tokenDecodificado, setTokenDecodificado] = useState(null);
-  const [mostrarCard, setMostrarCard] = useState(false);
+  const [mostrarCartao, setMostrarCard] = useState(false);
   const [imagem, setImagem] = useState(null);
   const [disciplinas, setDisciplinas] = useState([]);
   const [disciplinaSelecionada, setDisciplinaSelecionada] = useState("");
@@ -15,11 +15,37 @@ const Home = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const imagemSalva = localStorage.getItem("imagem"); 
+    if (imagemSalva) {
+      setImagem(imagemSalva);
+    }
+
     if (token) {
       try {
         const decodificado = decodeJwt(token);
         setTokenDecodificado(decodificado);
         console.log("Token:", decodificado);
+
+        if (decodificado.id) {
+          fetch(`https://projeto-iii-4.vercel.app/semestre/professor/${decodificado.id}`, {
+            headers: {
+              "Authorization": token,
+            }
+          })
+            .then(resposta => {
+              if (!resposta.ok) {
+                throw new Error(resposta);
+              }
+              return resposta.json();
+            })
+            .then(dados => {
+              console.log("Disciplinas recebidas:", dados);
+              setDisciplinas(dados);
+            })
+            .catch(erro => {
+              console.error(erro);
+            });
+        }
       } catch (erro) {
         console.error(erro.message);
       }
@@ -28,38 +54,14 @@ const Home = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (tokenDecodificado && tokenDecodificado.id) {
-      const token = localStorage.getItem("token");
-      const url = `https://projeto-iii-4.vercel.app/semestre/professor/${tokenDecodificado.id}`;
-
-      fetch(url, {
-        headers: {
-          "Authorization": token,
-        }
-      })
-        .then(resposta => {
-          if (!resposta.ok) {
-            throw new Error(resposta);
-          }
-          return resposta.json();
-        })
-        .then(dados => {
-          console.log("Disciplinas recebidas:", dados);
-          setDisciplinas(dados);
-        })
-        .catch(erro => {
-          console.error(erro);
-        });
-    }
-  }, [tokenDecodificado]);
-
   const alterarImagem = (e) => {
     const arquivo = e.target.files[0];
     if (arquivo) {
       const leitor = new FileReader();
       leitor.onloadend = () => {
-        setImagem(leitor.result);
+        const imagemProfessor = leitor.result;
+        setImagem(imagemProfessor);
+        localStorage.setItem("imagem", imagemProfessor); 
       };
       leitor.readAsDataURL(arquivo);
     }
@@ -75,7 +77,7 @@ const Home = () => {
 
   const alterarDisciplina = (e) => {
     setDisciplinaSelecionada(e.target.value);
-    setMensagemErro(""); 
+    setMensagemErro("");
   };
 
   const iniciarChamada = () => {
@@ -107,26 +109,25 @@ const Home = () => {
       });
   };
 
-  const confirmarChamada = () => {
+  const criarChamada = () => {
     if (!disciplinaSelecionada) {
       setMensagemErro("Selecione uma disciplina para iniciar a chamada.");
     } else {
-      console.log("Iniciando chamada para a disciplina:", disciplinaSelecionada);
-      iniciarChamada(); 
+      iniciarChamada();
     }
   };
 
-  const cancelarChamada = () => {
+  const cancelar = () => {
     setMostrarCard(false);
-    setDisciplinaSelecionada(""); 
+    setDisciplinaSelecionada("");
   };
 
   return (
-    <div className="home-container">
+    <div className="container-home">
       <div className="foto-boas-vindas">
         {tokenDecodificado && (
           <div>
-            <div className="foto-container">
+            <div className="container-foto">
               <img
                 src={imagem || "/src/assets/professor.png"}
                 alt="Professor"
@@ -144,28 +145,26 @@ const Home = () => {
         )}
       </div>
 
-      <div className="botoes-container">
+      <div className="container-botoes">
         <Button
           onClick={verChamadasAntigas}
           variant="contained"
-          color="primary"
-          size="large"
+          className="botao-chamadas-antigas"
         >
           Chamadas Antigas
         </Button>
         <Button
           onClick={gerarChamada}
           variant="contained"
-          color="success"
-          size="large"
+          className="botao-gerar-chamada"
         >
           Gerar Chamada
         </Button>
       </div>
 
-      {mostrarCard && (
-        <div className="card">
-          <div className="card-content">
+      {mostrarCartao && (
+        <div className="cartao">
+          <div className="conteudo-cartao">
             <h3>Iniciar Chamada</h3>
             <FormControl fullWidth error={!!mensagemErro}>
               <InputLabel>Escolha uma Disciplina</InputLabel>
@@ -173,6 +172,7 @@ const Home = () => {
                 value={disciplinaSelecionada}
                 onChange={alterarDisciplina}
                 label="Escolha uma Disciplina"
+                className="select-disciplinas"
               >
                 <MenuItem value="">
                   <em>Selecione uma disciplina</em>
@@ -183,22 +183,20 @@ const Home = () => {
                   </MenuItem>
                 ))}
               </Select>
-              {mensagemErro && <p className="error-message">{mensagemErro}</p>}
+              {mensagemErro && <p className="mensagem-erro">{mensagemErro}</p>}
             </FormControl>
-            <div className="button-group">
+            <div className="grupo-botoes">
               <Button
-                onClick={confirmarChamada}
+                onClick={criarChamada}
                 variant="contained"
-                color="success"
-                fullWidth
+                className="botao-confirmar"
               >
                 Confirmar
               </Button>
               <Button
-                onClick={cancelarChamada}
-                variant="outlined"
-                color="error"
-                fullWidth
+                onClick={cancelar}
+                variant="contained"
+                className="botao-cancelar"
               >
                 Cancelar
               </Button>

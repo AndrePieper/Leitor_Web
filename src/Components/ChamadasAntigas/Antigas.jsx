@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { decodeJwt } from "jose";
 import { useNavigate } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Typography, Alert, Paper } from "@mui/material";
-import "./Antigas.css";
+import "./Antigas.css"; 
 
 const ChamadasAntigas = () => {
   const [chamadas, setChamadas] = useState([]);
@@ -22,12 +22,12 @@ const ChamadasAntigas = () => {
       idProfessor = decoded.id;
     } catch (error) {
       setMensagemErro("Erro ao decodificar o token.");
-      console.error("Erro ao decodificar o token:", error.message);
+      console.error(error.message);
       return;
     }
 
-    const url = `https://projeto-iii-4.vercel.app/chamadas/professor/${idProfessor}`;
-    fetch(url, {
+    //get para buscar as matérias de acordo com o id do professor
+    fetch(`https://projeto-iii-4.vercel.app/chamadas/professor/${idProfessor}`, {
       headers: {
         Authorization: token,
       },
@@ -39,8 +39,7 @@ const ChamadasAntigas = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Chamadas antigas recebidas:", data);
-        setChamadas(data.reverse().slice(0, 9)); // Exibe as mais recentes primeiro, limite de 9
+        setChamadas(data.reverse().slice(0, 9)); //máximo de 10 registros
       })
       .catch((error) => {
         setMensagemErro(error.message);
@@ -48,24 +47,24 @@ const ChamadasAntigas = () => {
       });
   }, []);
 
-  const voltarParaHome = () => {
+  const Home = () => {
     navigate("/home");
   };
 
   return (
-    <div className="page-container">
-      <Typography className="page-title" variant="h4" gutterBottom>
+    <div className="container-pagina">
+      <Typography className="titulo-pagina" variant="h4" gutterBottom>
         Chamadas Antigas
       </Typography>
 
-      {mensagemErro && <Alert className="error-alert" severity="error">{mensagemErro}</Alert>}
+      {mensagemErro && <Alert className="alerta-erro" severity="error">{mensagemErro}</Alert>}
 
       {chamadas.length === 0 && !mensagemErro && (
-        <Typography variant="body1">Nenhuma chamada antiga encontrada.</Typography>
+        <Typography variant="body1">Nenhuma chamada encontrada.</Typography>
       )}
 
       {chamadas.length > 0 && (
-        <TableContainer component={Paper} className="table-container">
+        <TableContainer component={Paper} className="container-tabela">
           <Table>
             <TableHead>
               <TableRow>
@@ -92,9 +91,9 @@ const ChamadasAntigas = () => {
       )}
 
       <Button
-        className="voltar-button"
+        className="botao-voltar"
         variant="contained"
-        onClick={voltarParaHome}>
+        onClick={Home}>
           Voltar
       </Button>
     </div>

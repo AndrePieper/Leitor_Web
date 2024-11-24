@@ -1,40 +1,43 @@
-
-.page-container {
+.container-pagina {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #d9d9d9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 50px; 
+  margin-right: 50px; 
+  margin-top: 50px;
 }
 
-.page-title {
-  font-size: 2rem;
+.titulo-pagina {
+  font-size: 2.2rem; 
   margin-bottom: 16px;
 }
 
-.error-alert {
+.alerta-erro {
   margin-bottom: 16px;
 }
 
-.table-container {
+.container-tabela {
   margin-top: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }
 
-.table-container table {
+.container-tabela table {
   width: 100%;
+  font-size: 1.1rem; 
 }
 
-.voltar-button {
-  margin-top: 20px;
+.botao-voltar {
+  margin-top: 20px !important;
   padding: 12px 24px;
   border-radius: 6px;
   font-size: 16px;
-  background-color: #d9534f;
-  color: #d9d9d9;
+  background-color: #d32f2f !important;
+  color: #f9f9f9 !important;
   transition: background-color 0.3s ease;
 }
 
-.voltar-button:hover {
-  background-color: #c12e2a;
+.botao-voltar:hover {
+  background-color: #c12e2a!important;
 }

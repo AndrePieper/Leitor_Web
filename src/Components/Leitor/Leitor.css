@@ -1,96 +1,101 @@
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  background-color: #ffffff;
-  color: #000000;
-  height: 100vh; 
-}
-
-#root {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  background-color: #f9f9f9;
-}
-
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  padding: 16px;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
 }
 
-.LeitorContainer {
+.ContainerLeitor {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  width: 90%;
-  max-width: 1000px; 
-  height: 90%; 
-  padding: 20px;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  max-width: 700px;
+  margin: 16px auto;
+  border: 2px solid #ccc;
+  border-radius: 12px;
   background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 768px) {
-  .LeitorContainer {
-    max-width: 90%;
-    height: 95%; 
-    padding: 15px;
-  }
-
-@media (max-width: 768px) {
-  .LeitorQR {
-    max-height: 50%;
-    width: 80%; 
-  }
-}
-
-.LeitorQR {
-  flex: 1;
-  width: 85%; 
-  max-height: 60%;
-  background-color: #eaeaea;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-
-.Info {
-  margin-top: 20px;
-  font-size: 18px;
-  color: #333333;
-  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .ModalContainer {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 90%;
   max-width: 400px;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-.ModalActions {
+.AcoesModal {
   display: flex;
   justify-content: space-around;
-  margin-top: 15px;
+  margin-top: 16px;
 }
 
-  .LeitorQR {
-    max-height: 60%; 
-  }
-
-  .Info {
-    font-size: 16px;
-  }
+.LeitorQR {
+  width: 100%;
+  height: auto;
+  max-height: 700px;
+  /* border: 2px solid #ccc; */
+  border-radius: 12px;
 }
+
+.Informacao {
+  margin-top: 16px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: #333;
+}
+
+.botao {
+  width: 80%;
+  max-width: 300px;
+  margin-top: 16px;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.botao-finalizar {
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.botao-finalizar:hover {
+  background-color: #b71c1c;
+}
+
+.botao-confirmar {
+  background-color: #2E7D32;
+  color: #fff;
+  border: none;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.botao-confirmar:hover {
+  background-color: #1b5e20;
+}
+
+

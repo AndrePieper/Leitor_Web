@@ -1,15 +1,21 @@
-/* Estilos da Home */
-.home-container {
+.container-home {
   text-align: center;
+  font-family: 'Roboto', sans-serif;
   margin-top: 20px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .foto-boas-vindas {
   margin-bottom: 20px;
 }
 
-.foto-container {
+.container-foto {
   position: relative;
   display: inline-block;
 }
@@ -21,7 +27,7 @@
   margin-bottom: 10px;
 }
 
-h2 {
+.h2 {
   font-size: 24px;
   color: #333;
 }
@@ -36,50 +42,118 @@ h2 {
   cursor: pointer;
 }
 
-.botoes-container {
+.container-botoes {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 20px; 
+  margin-bottom: 30px;
+  flex-direction: row; 
 }
 
-.card {
-  width: 100%;
+.botao-chamadas-antigas,
+.botao-gerar-chamada {
+  width: 45%; 
+  padding: 16px 32px;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.botao-chamadas-antigas {
+  background-color: #0F6FC5 !important;
+  color: #fff;
+  border: none;
+}
+
+.botao-chamadas-antigas:hover {
+  background-color: #0b4e85;
+}
+
+.botao-gerar-chamada {
+  background-color: #2E7D32 !important;
+  color: #fff !important;
+  border: none;
+}
+
+.botao-gerar-chamada:hover {
+  background-color: #206923 !important;
+}
+
+.cartao {
+  font-family: 'Roboto', sans-serif;
+  width: 90%;
   max-width: 600px;
   margin: 20px auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #f9f9f9 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  transition: transform 0.2s ease-in-out;
+  text-align: center;
 }
 
-.card:hover {
-  transform: scale(1.05); 
-}
-
-.card-content {
+.conteudo-cartao {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 }
 
-.button-group {
+.grupo-botoes {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
 }
 
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
+.botao-confirmar,
+.botao-cancelar {
+  width: 80%;
+  max-width: 300px;
+  margin-top: 16px;
+  padding: 16px 32px;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
 }
 
+.botao-confirmar {
+  background-color: #2E7D32 !important;
+  color: #fff !important;
+  border: none;
+}
+
+.botao-confirmar:hover {
+  background-color: #206923 !important;
+}
+
+.botao-cancelar {
+  background-color: #d32f2f !important;
+  color: #fff !important;
+  border: none;
+}
+
+.botao-cancelar:hover {
+  background-color: #c12e2a !important;
+}
+
+.mensagem-erro {
+  color: red !important;
+  font-size: 16px;
+  margin-top: 10px;
+}
 
 @media (max-width: 768px) {
-  .card {
-    max-width: 100%; 
+  .cartao {
+    max-width: 100%;
+  }
+
+  .container-botoes {
+    flex-direction: column;
+    gap: 20px;
   }
 }
