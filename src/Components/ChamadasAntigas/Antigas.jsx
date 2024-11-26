@@ -9,6 +9,7 @@ const ChamadasAntigas = () => {
   const [mensagemErro, setMensagemErro] = useState("");
   const navigate = useNavigate();
 
+  //Traz oi tokem do login
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -26,7 +27,7 @@ const ChamadasAntigas = () => {
       return;
     }
 
-    // GET para buscar as materias de acordo com o ID do professor
+    // GET para buscar as chamadas finalziadas de acordo com o ID do professor
     fetch(`https://projeto-iii-4.vercel.app/chamadas/professor/${idProfessor}`, {
       headers: {
         Authorization: token,
@@ -39,6 +40,7 @@ const ChamadasAntigas = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         setChamadas(data.reverse().slice(0, 9)); 
       })
       .catch((error) => {
@@ -65,22 +67,28 @@ const ChamadasAntigas = () => {
 
       {chamadas.length > 0 && (
         <div className="grid">
-          {chamadas.map((chamada) => (
-            <Card key={chamada.id} className="card">
-              <CardContent>
-                <Typography className="cardTexto">{chamada.descricao}</Typography>
+        {chamadas.map((chamada) => (
+          <Card key={chamada.id} className="card">
+             <CardContent>
+               <Typography className="cardTexto">
+                 <strong>{chamada.descricao}</strong> 
+               </Typography>
                 <Typography variant="body2">
-                  Data: {new Date(chamada.data_hora_inicio).toLocaleDateString()}
+                    <strong>Número:</strong> {chamada.id}
                 </Typography>
-                <Typography variant="body2" >
-                  Hora: {new Date(chamada.data_hora_inicio).toLocaleTimeString()}
+                <Typography variant="body2">
+                  <strong>Data:</strong> {new Date(chamada.data_hora_inicio).toLocaleDateString()}
                 </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
+                <Typography variant="body2">
+                  <strong>Hora de Início:</strong> {new Date(chamada.data_hora_inicio).toLocaleTimeString()}
+              </Typography>
+              <Typography variant="body2">
+                  <strong>Hora de Fechamento:</strong> {new Date(chamada.data_hora_final).toLocaleTimeString()}
+            </Typography>
+          </CardContent>
+        </Card>
+        ))}
+      </div>)}
       <Button
         className="botaoPadrao"
         variant="contained"

@@ -14,13 +14,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const imagemSalva = localStorage.getItem("imagem"); 
+    const token = localStorage.getItem("token");//tokem 
+    const imagemSalva = localStorage.getItem("imagem"); //imagem de perfil
     if (imagemSalva) {
       setImagem(imagemSalva);
     }
 
-    if (token) {
+    if (token) { //Get das disciplinas em cima do Id_porfessor
       try {
         const decodificado = decodeJwt(token);
         setTokenDecodificado(decodificado);
@@ -54,7 +54,7 @@ const Home = () => {
     }
   }, []);
 
-  const alterarImagem = (e) => {
+  const alterarImagem = (e) => {//funcao para alterar e salvar imagem
     const arquivo = e.target.files[0];
     if (arquivo) {
       const leitor = new FileReader();
@@ -89,7 +89,7 @@ const Home = () => {
     };
 
     console.log("Dados enviados:", chamadaData);
-
+    //Post para iniciar a chamada
     fetch("https://projeto-iii-4.vercel.app/chamadas", {
       method: "POST",
       headers: {

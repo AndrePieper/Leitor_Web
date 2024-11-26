@@ -18,6 +18,7 @@ const Login = () => {
 
     const credenciais = { email: usuario, senha };
 
+    //Post
     try {
       const resposta = await fetch("https://projeto-iii-4.vercel.app/usuarios/loginWeb", {
         method: "POST",

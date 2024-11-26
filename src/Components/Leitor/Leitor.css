@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -17,7 +23,7 @@
   justify-content: center;
   font-family: 'Roboto', sans-serif;
   width: 100%;
-  max-width: 700px;
+  max-width: 600px;
   margin: 16px auto;
   border: 2px solid #ccc;
   border-radius: 12px;
@@ -53,7 +59,7 @@
 }
 
 .LeitorQR {
-  width: 100%;
+  width: 90%;
   height: auto;
   max-height: 60vh; 
   border-radius: 12px;
@@ -61,7 +67,7 @@
 }
 
 .Informacao {
-  margin-top: 16px;
+  margin-top: 20px;
   text-align: center;
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
