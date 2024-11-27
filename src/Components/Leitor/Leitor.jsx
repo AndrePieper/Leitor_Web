@@ -7,16 +7,18 @@ import './Leitor.css';
 function LeitorQR() {
   const [dados, setDados] = useState('Aguardando QR Code');
   const [scannerAtivo, setScannerAtivo] = useState(true);
-  const [enviandoDados, setEnviandoDados] = useState(false);
-  const [modalFinalizarChamada,setmodalFinaliza] = useState(false);
+  const [envDados, setenvDados] = useState(false);
+  const [modalCardFinalizar,setCardFinalizar] = useState(false);
   const [idChamada] = useState(localStorage.getItem("id_chamada"));
   const navigate = useNavigate();
 
+
+  //POST para registrar a presenca do aluno
   const presencaAluno = async (dadosQR) => {
     try {
       const dadosJson = JSON.parse(dadosQR);
       if (dadosJson.id_aluno && dadosJson.hora_post) {
-        setEnviandoDados(true);
+        setenvDados(true);
         const token = localStorage.getItem("token");
         const resposta = await fetch('https://projeto-iii-4.vercel.app/chamada/alunos', {
           method: "POST",
@@ -32,39 +34,42 @@ function LeitorQR() {
         });
         if (resposta.ok) {
           const resultado = await resposta.json();
-          setDados(`Horário de chamada registrado com sucesso para o aluno ${resultado.nome}`);
+          setDados(`Presença registrada com sucesso!`);
         } else {
           const resultado = await resposta.json();
           setDados(resultado.message);
         }
       } else {
         setDados('QR Code inválido');
-        setTimeout(() => setDados('Aguardando QR Code'), 3000);
+        setTimeout(() => setDados('Aguardando QR Code...'), 5000);
       }
     } catch (erro) {
       setDados('QR Code inválido');
-      setTimeout(() => setDados('Aguardando QR Code'), 3000);
+      setTimeout(() => setDados('Aguardando QR Code...'), 5000);
     } finally {
       setTimeout(() => {
-        setEnviandoDados(false);
-      }, 3000);
+        setenvDados(false);
+        setDados('Aguardando QR Code...');
+      }, 5000);
     }
   };
 
   const processarQRCode = (resultado, erro) => {
-    if (scannerAtivo && !enviandoDados && resultado) {
+    if (scannerAtivo && !envDados && resultado) {
       const dadosEscaneados = resultado?.text;
       presencaAluno(dadosEscaneados);
     }
   };
 
+
+  //PUT para finalziar a chamada atual
   const finalizarChamada = async () => {
     const token = localStorage.getItem("token");
     const dataHoraFinal = new Date().toISOString();
     const idChamada = localStorage.getItem("id_chamada");
     try {
       const resposta = await fetch("https://projeto-iii-4.vercel.app/chamadas/finalizar", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           "Authorization": token,
@@ -78,7 +83,7 @@ function LeitorQR() {
         setDados("Chamada finalizada com sucesso!");
       } else {
         const resultado = await resposta.json();
-        setDados(`Erro ao finalizar chamada: ${resultado.message || "Erro desconhecido"}`);
+        setDados(resultado.message || "Erro desconhecido");
       }
     } catch {
       setDados("Erro ao finalizar chamada.");
@@ -89,16 +94,16 @@ function LeitorQR() {
     }
   };
 
-  const mostrarModalFinalizar = () => {
-   setmodalFinaliza(true);
+  const cardFinalizar = () => {
+   setCardFinalizar(true);
   };
 
   const cancelarFinalizacao = () => {
-   setmodalFinaliza(false);
+   setCardFinalizar(false);
   };
 
   const confirmarFinalicao = () => {
-   setmodalFinaliza(false);
+   setCardFinalizar(false);
     finalizarChamada();
   };
 
@@ -116,11 +121,11 @@ function LeitorQR() {
           <Typography variant="h6">{dados}</Typography>
         </div>
       </div>
-      <Button variant="contained" color="error" onClick={mostrarModalFinalizar}>
+      <Button variant="contained" color="error" onClick={cardFinalizar}>
         Finalizar Chamada
       </Button>
 
-      <Modal open={modalFinalizarChamada} onClose={cancelarFinalizacao}>
+      <Modal open={modalCardFinalizar} onClose={cancelarFinalizacao}>
         <Box className="ModalContainer">
           <Typography variant="h6">
             Deseja mesmo finalizar a chamada agora?
